@@ -56,20 +56,33 @@ export default class extends Phaser.State {
     });
     this.game.add.existing(this.planet)
 
+    const diameter2 = 200
+    this.planet2 = new Planet({
+      game: this,
+      x: this.world.centerX + 300,
+      y: this.world.centerY - 200,
+      diameter: diameter2
+    });
+    this.game.add.existing(this.planet2)
+
+    this.planets = this.game.add.group();
+    this.planets.add(this.planet)
+    this.planets.add(this.planet2)
+
     this.game.camera.x = this.player.x - this.camera.width / 2;
     this.game.camera.y = this.player.y - this.camera.height / 2;
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
   }
 
   update() {
-    this.player.accelerateToObject(this.planet);
+    this.player.accelerateToObject(this.player.closestPlanet);
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.cameraInfo(game.camera, 32, 32);
       //this.game.debug.spriteInfo(this.player, 32, 32)
-      //this.game.debug.text("on ground? " + this.player.onGround(), 0, 10 );
+      this.game.debug.text("on ground? " + this.player.onGround(), 32, 14 );
     }
   }
 }

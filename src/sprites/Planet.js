@@ -3,6 +3,8 @@ import Phaser from 'phaser'
 export default class extends Phaser.Graphics {
   constructor ({ game, x, y, diameter}) {
     super(game, x, y)
+    this.diameter = diameter
+    this.radius = diameter/2
     this.circle = new Phaser.Circle(0, 0, diameter);
     this.anchor.setTo(0.5)
 

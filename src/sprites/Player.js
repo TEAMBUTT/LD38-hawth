@@ -1,3 +1,5 @@
+import { minBy, map } from 'lodash'
+
 export default class extends Phaser.Sprite {
   constructor ({ game, x, y }) {
     super(game, x, y, 'player')
@@ -14,6 +16,11 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
+    console.log(map(this.game.planets.children, (planet) => this.distangeTo(planet) - planet.radius))
+    this.closestPlanet = minBy(this.game.planets.children, (planet) => this.distangeTo(planet) - planet.radius)
+
+    this.accelerateToObject(this.closestPlanet);
+
     if(this.cursors.right.isDown) {
       this.body.thrustRight(300);
     }
@@ -35,23 +42,24 @@ export default class extends Phaser.Sprite {
   }
 
   onGround() {
-    var yAxis = p2.vec2.fromValues(0, 1);
-    var result = false;
+    if(!this.closestPlanet) return false;
 
-    for (var i = 0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++) {
-      var c = game.physics.p2.world.narrowphase.contactEquations[i];
+    return this.distangeTo(this.closestPlanet) - this.height / 2 - 0.5 < this.closestPlanet.radius;
+  }
 
-      if (c.bodyA === this.body.data || c.bodyB === this.body.data) {
-        var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
-        if (c.bodyA === this.body.data) d *= -1;
-        if (d > 0.5) result = true;
-      }
-    }
+  distangeToSquared(obj) {
+    const dy = obj.y - this.y;
+    const dx = obj.x - this.x;
+    return dy*dy + dx*dx;
+  }
 
-    return result;
+  distangeTo(obj) {
+    return Math.sqrt(this.distangeToSquared(obj));
   }
 
   accelerateToObject(obj) {
+    if(!obj) return;
+
     const speed = 600;
     const angle = Math.atan2(obj.y - this.y, obj.x - this.x);
     const targetRotation = angle - game.math.degToRad(90);
