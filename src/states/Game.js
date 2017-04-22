@@ -56,29 +56,13 @@ export default class extends Phaser.State {
     });
     this.game.add.existing(this.planet)
 
-    this.worldgroup = this.game.add.group();
-    this.worldgroup.add(this.starfield);
-    this.worldgroup.add(this.player);
-    this.worldgroup.add(this.planet);
-
-    this.updateRotation();
     this.game.camera.x = this.player.x - this.camera.width / 2;
     this.game.camera.y = this.player.y - this.camera.height / 2;
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
   }
 
-  updateRotation() {
-    this.worldgroup.rotation = -1*this.player.rotation;
-    this.worldgroup.pivot.x = this.player.x;
-    this.worldgroup.pivot.y = this.player.y;
-    this.worldgroup.x = this.worldgroup.pivot.x;
-    this.worldgroup.y = this.worldgroup.pivot.y;
-  }
-
   update() {
     this.player.accelerateToObject(this.planet);
-
-    //this.updateRotation();
   }
 
   render () {
