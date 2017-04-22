@@ -76,7 +76,7 @@ export default class extends Phaser.State {
       this.game.debug.cameraInfo(game.camera, 32, 32);
 
 
-      //game.debug.body(this.player);
+      game.debug.body(this.player);
       //this.game.debug.spriteInfo(this.player, 32, 32)
       this.game.debug.text("on ground? " + this.player.onGround, 32, 14 );
     }
