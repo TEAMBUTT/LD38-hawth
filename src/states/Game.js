@@ -24,6 +24,14 @@ export default class extends Phaser.State {
     })
 
     this.game.add.existing(this.mushroom)
+
+    var diameter = 5000;
+    this.circle = new Phaser.Circle(this.game.world.centerX, this.game.world.centerY + diameter/2, diameter);
+
+    var graphics = game.add.graphics(0, 0);
+    graphics.lineStyle(1, 0x333333, 1);
+    graphics.beginFill(0xbbbbbb);
+    graphics.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
   }
 
   render () {
