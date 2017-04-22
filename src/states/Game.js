@@ -36,22 +36,24 @@ export default class extends Phaser.State {
     this.game.add.existing(this.planet2)
 
     this.planets = this.game.add.group();
+    this.game.planets = this.planets;
     this.planets.add(this.planet)
     this.planets.add(this.planet2)
 
     this.player = new Player({
-      game: this,
+      game: this.game,
       x: this.world.centerX,
       y: this.world.centerY,
     });
     this.game.add.existing(this.player)
 
+
     this.game.camera.x = this.player.x - this.camera.width / 2;
     this.game.camera.y = this.player.y - this.camera.height / 2;
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
-    const bannerText = 'Petit Prince of Persia'
-    let banner = this.add.text(this.world.centerX, this.game.centerY, bannerText)
+    const bannerText = 'Le Petit Prince'
+    let banner = this.add.text(this.world.centerX, this.world.centerY + 100, bannerText)
     banner.font = 'Bangers'
     banner.padding.set(10, 16)
     banner.fontSize = 40
@@ -74,7 +76,7 @@ export default class extends Phaser.State {
       this.game.debug.cameraInfo(game.camera, 32, 32);
 
 
-      game.debug.body(this.player);
+      //game.debug.body(this.player);
       //this.game.debug.spriteInfo(this.player, 32, 32)
       this.game.debug.text("on ground? " + this.player.onGround, 32, 14 );
     }

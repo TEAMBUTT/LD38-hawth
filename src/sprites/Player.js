@@ -6,12 +6,19 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
 
+    this.animations.add('idle_left', [0], 10);
+    this.animations.add('idle_right', [1], 10);
+    this.animations.add('walk_left', [2, 3, 4, 5], 10, true);
+    this.animations.add('walk_right', [6, 7, 8, 9], 10, true);
+
     game.physics.arcade.enable([ this ], Phaser.Physics.ARCADE);
     this.body.setCircle(this.width / 2);
 
     this.inputEnabled = true;
     this.cursors = game.input.keyboard.createCursorKeys();
     this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+    this.facing = "right";
   }
 
   update () {
@@ -20,7 +27,7 @@ export default class extends Phaser.Sprite {
     //this.accelerateToObject(this.closestPlanet);
 
     this.rotation = game.physics.arcade.angleBetween(this, this.closestPlanet) - game.math.degToRad(90);
-    this.onGround = this.distangeTo(this.closestPlanet) - this.height / 2 - 0.5 < this.closestPlanet.radius;
+    this.onGround = this.distangeTo(this.closestPlanet) - this.height / 2 - 0.5 + 10 < this.closestPlanet.radius;
 
     if(this.onGround) {
       this.body.gravity.x = 0;
@@ -34,21 +41,30 @@ export default class extends Phaser.Sprite {
       this.body.gravity.y = Math.sin(angleToPlanet) * gravityMag;
     }
 
+    let anim = "idle";
+
     const walkSpeed = this.onGround ? 200 : 10;
     let speed = 0;
     if(this.cursors.right.isDown) {
       speed = walkSpeed;
+      anim = "walk";
+      this.facing = "right";
     }
     if(this.cursors.left.isDown) {
       speed = -walkSpeed;
+      anim = "walk";
+      this.facing = "left";
     }
     const walkAngle = this.rotation;
     this.body.velocity.x += Math.cos(walkAngle) * speed;
     this.body.velocity.y += Math.sin(walkAngle) * speed;
 
     if(this.jumpButton.isDown && this.canJump()) {
+      anim = "walk";
       this.jump();
     }
+
+    this.animations.play(`${anim}_${this.facing}`);
   }
 
   jump() {
