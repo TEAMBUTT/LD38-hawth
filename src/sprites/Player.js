@@ -6,8 +6,7 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
 
-    this.animations.add('idle_left', [0], 10);
-    this.animations.add('idle_right', [1], 10);
+    this.frame = 0;
     this.animations.add('walk_left', [2, 3, 4, 5], 10, true);
     this.animations.add('walk_right', [6, 7, 8, 9], 10, true);
 
@@ -23,8 +22,6 @@ export default class extends Phaser.Sprite {
 
   update () {
     this.closestPlanet = minBy(this.game.planets.children, (planet) => this.distangeTo(planet) - planet.radius)
-
-    //this.accelerateToObject(this.closestPlanet);
 
     this.rotation = game.physics.arcade.angleBetween(this, this.closestPlanet) - game.math.degToRad(90);
     this.onGround = this.distangeTo(this.closestPlanet) - this.height / 2 - 0.5 + 10 < this.closestPlanet.radius;
@@ -60,11 +57,19 @@ export default class extends Phaser.Sprite {
     this.body.velocity.y += Math.sin(walkAngle) * speed;
 
     if(this.jumpButton.isDown && this.canJump()) {
-      anim = "walk";
       this.jump();
     }
 
-    this.animations.play(`${anim}_${this.facing}`);
+    if(anim === 'walk') {
+      this.animations.play(`walk_${this.facing}`);
+    } else {
+      this.animations.stop()
+      if(this.facing === 'right') {
+        this.frame = 1;
+      } else {
+        this.frame = 0;
+      }
+    }
   }
 
   jump() {
@@ -86,17 +91,5 @@ export default class extends Phaser.Sprite {
 
   distangeTo(obj) {
     return Math.sqrt(this.distangeToSquared(obj));
-  }
-
-  accelerateToObject(obj) {
-    if(!obj) return;
-
-    const speed = 600;
-    const angle = Math.atan2(obj.y - this.y, obj.x - this.x);
-    const targetRotation = angle - game.math.degToRad(90);
-
-    this.rotation = targetRotation;
-    //this.body.force.x = Math.cos(angle) * speed;
-    //this.body.force.y = Math.sin(angle) * speed;
   }
 };
