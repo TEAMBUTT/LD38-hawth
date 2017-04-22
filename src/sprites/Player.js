@@ -6,7 +6,7 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
 
-    game.physics.p2.enable([this], true);
+    game.physics.p2.enable([this]);
     this.body.setMaterial(game.playerMaterial);
 
     this.inputEnabled = true;
