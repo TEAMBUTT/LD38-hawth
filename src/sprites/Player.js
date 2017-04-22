@@ -32,8 +32,8 @@ export default class extends Phaser.Sprite {
   accelerateToObject(obj) {
     var speed = 600;
     var angle = Math.atan2(obj.y - this.y, obj.x - this.x);
-    this.body.rotation = angle;// + game.math.degToRad(90);  // correct angle of angry bullets (depends on the sprite used)
-    this.body.force.x = Math.cos(angle) * speed;    // accelerateToObject 
+    this.body.rotation = angle - game.math.degToRad(90);
+    this.body.force.x = Math.cos(angle) * speed;
     this.body.force.y = Math.sin(angle) * speed;
   }
 };

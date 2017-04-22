@@ -42,17 +42,14 @@ export default class extends Phaser.State {
     this.game.add.existing(this.player)
     game.camera.follow(this.player);
 
-    const diameter = 2000;
+    const diameter = 200;
     this.planet = new Planet({
       game: this,
       x: this.world.centerX,
       y: this.world.centerY + diameter/2 + 32 + 5,
       diameter: diameter
     });
-    console.log(this.planet)
     this.game.add.existing(this.planet)
-
-    this.player.accelerateToObject(this.planet);
   }
 
   update() {
