@@ -6,8 +6,10 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
 
-    game.physics.p2.enable([this]);
+    game.physics.p2.enable([this], true);
     this.body.setMaterial(game.playerMaterial);
+    this.body.damping = 0.2
+    this.body.setRectangle(this.width, this.height - 5, 0, -5)
 
     this.inputEnabled = true;
     this.cursors = game.input.keyboard.createCursorKeys();

@@ -27,7 +27,7 @@ export default class extends Phaser.State {
 
 
     //game.physics.p2.gravity.y = 100;
-    game.physics.p2.restitution = 0.8;
+    //game.physics.p2.restitution = 0.8;
 
     this.game.physics.p2.world.defaultContactMaterial.friction = 0.9;
     this.game.physics.p2.world.setGlobalStiffness(1e5);
@@ -35,15 +35,7 @@ export default class extends Phaser.State {
     this.planetMaterial = game.physics.p2.createMaterial('planetMaterial');
     this.playerMaterial = game.physics.p2.createMaterial('playerMaterial');
 
-    var playerPlanetMC = game.physics.p2.createContactMaterial(this.playerMaterial, this.planetMaterial, { friction: 1, frictionStiffness: 1e7, frictionRelaxation: 3 });
-
-    this.player = new Player({
-      game: this,
-      x: this.world.centerX,
-      y: this.world.centerY,
-    });
-
-    this.game.add.existing(this.player)
+    var playerPlanetMC = game.physics.p2.createContactMaterial(this.playerMaterial, this.planetMaterial, { friction: 1000, frictionStiffness: 1e7, frictionRelaxation: 3, restitution: 0 });
 
     const diameter = 2000;
     this.planet = new Planet({
@@ -66,6 +58,13 @@ export default class extends Phaser.State {
     this.planets = this.game.add.group();
     this.planets.add(this.planet)
     this.planets.add(this.planet2)
+
+    this.player = new Player({
+      game: this,
+      x: this.world.centerX,
+      y: this.world.centerY,
+    });
+    this.game.add.existing(this.player)
 
     this.game.camera.x = this.player.x - this.camera.width / 2;
     this.game.camera.y = this.player.y - this.camera.height / 2;
