@@ -52,8 +52,6 @@ export default class extends Phaser.State {
     console.log(this.planet)
     this.game.add.existing(this.planet)
 
-    game.physics.p2.restitution = 0.9;
-
     this.player.accelerateToObject(this.planet);
   }
 
