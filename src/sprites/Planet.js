@@ -13,10 +13,9 @@ export default class extends Phaser.Graphics {
     this.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
     this.endFill(0xbbbbbb);
 
-    game.physics.p2.enable([ this ]);
+    game.physics.arcade.enable([ this ], Phaser.Physics.ARCADE);
     this.body.setCircle(diameter/2);
-    this.body.static = true;
-    this.body.setMaterial(game.planetMaterial);
+    this.body.immovable = true;
 
     game.camera.follow(this.player);
   }
