@@ -12,11 +12,9 @@ export default class extends Phaser.Sprite {
     this.inputEnabled = true;
     this.cursors = game.input.keyboard.createCursorKeys();
     this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    console.log(this)
   }
 
   update () {
-    console.log(map(this.game.planets.children, (planet) => this.distangeTo(planet) - planet.radius))
     this.closestPlanet = minBy(this.game.planets.children, (planet) => this.distangeTo(planet) - planet.radius)
 
     this.accelerateToObject(this.closestPlanet);

@@ -36,7 +36,6 @@ export default class extends Phaser.State {
     this.playerMaterial = game.physics.p2.createMaterial('playerMaterial');
 
     var playerPlanetMC = game.physics.p2.createContactMaterial(this.playerMaterial, this.planetMaterial, { friction: 1, frictionStiffness: 1e7, frictionRelaxation: 3 });
-    console.log(playerPlanetMC);
 
     this.player = new Player({
       game: this,
@@ -75,7 +74,6 @@ export default class extends Phaser.State {
   }
 
   update() {
-    this.player.accelerateToObject(this.player.closestPlanet);
   }
 
   render () {
