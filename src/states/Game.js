@@ -20,7 +20,7 @@ export default class extends Phaser.State {
 
     game.world.resize(5000, 5000);
 
-    this.starfield = game.add.tileSprite(-1024, -1024, 2048, 2048, 'starfield');
+    this.starfield = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'starfield');
     this.starfield.fixedToCamera = true;
 
     this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -44,7 +44,6 @@ export default class extends Phaser.State {
     });
 
     this.game.add.existing(this.player)
-    game.camera.follow(this.player);
 
     const diameter = 2000;
     this.planet = new Planet({
@@ -74,6 +73,9 @@ export default class extends Phaser.State {
   }
 
   update() {
+    const parallax = 16
+    this.starfield.tilePosition.x = -this.player.x/parallax
+    this.starfield.tilePosition.y = -this.player.y/parallax
   }
 
   render () {
