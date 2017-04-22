@@ -2,6 +2,7 @@
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom'
 import Player from '../sprites/Player'
+import Planet from '../sprites/Planet'
 
 export default class extends Phaser.State {
   init () {}
@@ -17,7 +18,13 @@ export default class extends Phaser.State {
     banner.smoothed = false
     banner.anchor.setTo(0.5)
 
+    var starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
+    starfield.fixedToCamera = true;
+
     this.game.physics.startSystem(Phaser.Physics.P2JS);
+
+    this.planetMaterial = game.physics.p2.createMaterial('planetMaterial');
+    this.playerMaterial = game.physics.p2.createMaterial('planetMaterial');
 
     this.mushroom = new Mushroom({
       game: this,
@@ -32,29 +39,31 @@ export default class extends Phaser.State {
       y: this.world.centerY,
     });
 
-    this.game.input.keyboard.addKeyCapture([
-      Phaser.Keyboard.LEFT,
-      Phaser.Keyboard.RIGHT,
-      Phaser.Keyboard.UP,
-      Phaser.Keyboard.DOWN,
-      Phaser.Keyboard.SPACE
-    ]);
-
     this.game.add.existing(this.player)
+    game.camera.follow(this.player);
 
-    //var diameter = 5000;
-    //this.circle = new Phaser.Circle(this.game.world.centerX, this.game.world.centerY + diameter/2, diameter);
+    const diameter = 2000;
+    this.planet = new Planet({
+      game: this,
+      x: this.world.centerX,
+      y: this.world.centerY + diameter/2 + 32 + 5,
+      diameter: diameter
+    });
+    console.log(this.planet)
+    this.game.add.existing(this.planet)
 
-    //var graphics = game.add.graphics(0, 0);
-    //graphics.lineStyle(1, 0x333333, 1);
-    //graphics.beginFill(0xbbbbbb);
-    //graphics.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
+    game.physics.p2.restitution = 0.9;
+
+    this.player.accelerateToObject(this.planet);
+  }
+
+  update() {
+    this.player.accelerateToObject(this.planet);
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.player, 32, 32)
-      game.debug.body(this.player)
     }
   }
 }

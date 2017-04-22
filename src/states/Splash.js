@@ -15,14 +15,7 @@ export default class extends Phaser.State {
     //
     this.load.image('mushroom', 'assets/images/mushroom2.png')
     this.load.image('player', 'assets/images/mushroom2.png')
-
-
-    this.game.input.keyboard.addKeyCapture([
-      Phaser.Keyboard.LEFT,
-      Phaser.Keyboard.RIGHT,
-      Phaser.Keyboard.UP,
-      Phaser.Keyboard.DOWN
-    ]);
+    this.load.image('starfield', 'assets/images/starfield.jpg')
   }
 
   create () {

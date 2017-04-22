@@ -5,15 +5,9 @@ export default class extends Phaser.Sprite {
     this.anchor.setTo(0.5)
 
     game.physics.p2.enable([this], true);
+    this.body.setMaterial(game.planetMaterial);
 
-    this.body.collideWorldBounds = true;
     this.inputEnabled = true;
-
-    this.MAX_SPEED = 500;
-    this.ACCELERATION = 1500;
-    this.DRAG = 600;
-    // this.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED);
-
     this.cursors = game.input.keyboard.createCursorKeys();
     this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     console.log(this)
@@ -33,5 +27,13 @@ export default class extends Phaser.Sprite {
 
   canJump() {
     return true
+  }
+
+  accelerateToObject(obj) {
+    var speed = 600;
+    var angle = Math.atan2(obj.y - this.y, obj.x - this.x);
+    this.body.rotation = angle;// + game.math.degToRad(90);  // correct angle of angry bullets (depends on the sprite used)
+    this.body.force.x = Math.cos(angle) * speed;    // accelerateToObject 
+    this.body.force.y = Math.sin(angle) * speed;
   }
 };
