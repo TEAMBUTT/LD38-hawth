@@ -55,17 +55,18 @@ export default class extends Phaser.Sprite {
     this.birdTarget.setMagnitude(this.birdTarget.getMagnitude() + 64 + 64)
     this.birdTarget.add(this.closestPlanet.x, this.closestPlanet.y)
 
+    if(this.onGround) {
+      this.surfaceVelocity.x = 0;
+    }
     const walkSpeed = this.onGround ? 120 : 100;
-    let speed = 0;
     if(this.cursors.right.isDown) {
-      speed = walkSpeed;
+      this.surfaceVelocity.x = walkSpeed
       this.facing = "right";
     }
     if(this.cursors.left.isDown) {
-      speed = -walkSpeed;
+      this.surfaceVelocity.x = -walkSpeed
       this.facing = "left";
     }
-    this.surfaceVelocity.x = speed
 
     if(this.jumpButton.isDown && this.canJump()) {
       this.jump();
