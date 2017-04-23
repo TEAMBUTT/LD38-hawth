@@ -28,16 +28,21 @@ export default class extends Phaser.Sprite {
 
     this.rotation = game.physics.arcade.angleBetween(this, this.closestPlanet) - game.math.degToRad(90);
 
-    const footSize = 24;
-    this.onGround = this.distangeTo(this.closestPlanet) - this.height / 2 - 1 + footSize < this.closestPlanet.radius;
+    const playerPlanetVector = new Phaser.Point.subtract(this.position, this.closestPlanet.position);
+    const distanceToPlanet = playerPlanetVector.getMagnitude();
+
+    const footSize = 10;
+    this.onGround = distanceToPlanet - this.width / 2 - 1 + footSize < this.closestPlanet.radius;
 
     this.surfaceVelocity.copyFrom(this.body.velocity)
     this.surfaceVelocity.rotate(0, 0, -this.rotation)
 
     if(this.onGround) {
-      this.body.gravity.x = 0;
-      this.body.gravity.y = 0;
       this.surfaceVelocity.y = 0;
+      const newPosition = playerPlanetVector.clone();
+      newPosition.setMagnitude(this.closestPlanet.radius + this.width/2 - footSize)
+      newPosition.add(this.closestPlanet.x, this.closestPlanet.y)
+      this.position.copyFrom(newPosition)
     } else {
       const angleToPlanet = this.rotation + game.math.degToRad(90);
       const gravityMag = 300;
@@ -45,18 +50,14 @@ export default class extends Phaser.Sprite {
       this.body.gravity.y = Math.sin(angleToPlanet) * gravityMag;
     }
 
-    let anim = "idle";
-
     const walkSpeed = this.onGround ? 200 : 150;
     let speed = 0;
     if(this.cursors.right.isDown) {
       speed = walkSpeed;
-      anim = "walk";
       this.facing = "right";
     }
     if(this.cursors.left.isDown) {
       speed = -walkSpeed;
-      anim = "walk";
       this.facing = "left";
     }
     this.surfaceVelocity.x = speed
@@ -65,7 +66,7 @@ export default class extends Phaser.Sprite {
       this.jump();
     }
 
-    if(anim === 'walk') {
+    if(this.onGround && (this.surfaceVelocity.x < -10 || this.surfaceVelocity.x > 10)) {
       this.animations.play(`walk_${this.facing}`);
     } else {
       this.animations.stop()
@@ -89,13 +90,7 @@ export default class extends Phaser.Sprite {
     return this.onGround
   }
 
-  distangeToSquared(obj) {
-    const dy = obj.y - this.y;
-    const dx = obj.x - this.x;
-    return dy*dy + dx*dx;
-  }
-
   distangeTo(obj) {
-    return Math.sqrt(this.distangeToSquared(obj));
+    return new Phaser.Point.subtract(this.position, obj.position).getMagnitude();
   }
 };

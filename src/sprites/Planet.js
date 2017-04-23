@@ -16,7 +16,5 @@ export default class extends Phaser.Graphics {
     game.physics.arcade.enable([ this ], Phaser.Physics.ARCADE);
     this.body.setCircle(diameter/2);
     this.body.immovable = true;
-
-    game.camera.follow(this.player);
   }
 }
