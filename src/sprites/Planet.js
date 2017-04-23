@@ -11,7 +11,7 @@ export default class extends Phaser.Graphics {
     this.lineStyle(2, 0x333333, 1);
     this.beginFill(0xbbbbbb);
     this.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
-    this.endFill(0xbbbbbb);
+    this.endFill();
 
     game.physics.arcade.enable([ this ], Phaser.Physics.ARCADE);
     this.body.setCircle(diameter/2);
