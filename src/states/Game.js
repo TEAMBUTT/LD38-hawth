@@ -38,7 +38,7 @@ export default class extends Phaser.State {
 
     this.planet3 = new Planet({
       game: this,
-      x: this.world.centerX + 700,
+      x: this.world.centerX + 500,
       y: this.world.centerY - 200,
       diameter: diameter2
     });

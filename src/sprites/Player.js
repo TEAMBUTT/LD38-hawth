@@ -44,12 +44,12 @@ export default class extends Phaser.Sprite {
       newPosition.setMagnitude(this.closestPlanet.radius + this.width/2 - footSize)
       newPosition.add(this.closestPlanet.x, this.closestPlanet.y)
       this.position.copyFrom(newPosition)
-    } else {
-      const angleToPlanet = rotation + game.math.degToRad(90);
-      const gravityMag = 300;
-      this.body.gravity.x = Math.cos(angleToPlanet) * gravityMag;
-      this.body.gravity.y = Math.sin(angleToPlanet) * gravityMag;
     }
+
+    const angleToPlanet = rotation + game.math.degToRad(90);
+    const gravityMag = this.jumpButton.isDown ? 300 : 600;
+    this.body.gravity.x = Math.cos(angleToPlanet) * gravityMag;
+    this.body.gravity.y = Math.sin(angleToPlanet) * gravityMag;
 
     this.birdTarget = playerPlanetVector.clone();
     this.birdTarget.setMagnitude(this.birdTarget.getMagnitude() + 64 + 64)
