@@ -31,8 +31,8 @@ export default class extends Level {
     }
 
     this.placePlayer(
-      this.world.centerX + 1100,
-      this.world.centerY + 300,
+      this.world.centerX,
+      this.world.centerY,
     );
 
     const bannerText = 'Le Petit Prince'
@@ -43,5 +43,10 @@ export default class extends Level {
     banner.fill = '#333333'
     banner.smoothed = true
     banner.anchor.setTo(0.5)
+
+    //this.state.start('Level2')
+  }
+
+  update() {
   }
 }

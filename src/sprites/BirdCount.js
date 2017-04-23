@@ -3,7 +3,6 @@ import { filter } from 'lodash';
 export default class extends Phaser.Text {
   constructor ({game, x, y, birds}) {
     super(game, x, y, "sadf");
-    console.log(this.game)
 
     this.birds = birds;
 
@@ -15,13 +14,17 @@ export default class extends Phaser.Text {
     this.text = `2/10`
 
     this.fixedToCamera = true;
+  }
 
-    console.log(this.birds)
+  following() {
+    return filter(this.birds.children, (bird) => bird.state === "followPlayer").length;
+  }
+
+  total() {
+    return this.birds.total;
   }
 
   update() {
-    const total = this.birds.total;
-    const following  = filter(this.birds.children, (bird) => bird.state === "followPlayer").length;
-    this.text = `${following}/${total}`;
+    this.text = `${this.following()}/${this.total()}`;
   }
 }
