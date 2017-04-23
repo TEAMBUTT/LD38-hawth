@@ -5,79 +5,41 @@ import Player from '../sprites/Player'
 import Planet from '../sprites/Planet'
 import Bird from '../sprites/Bird'
 import BirdCount from '../sprites/BirdCount'
+import Level from '../states/Level'
 
-export default class extends Phaser.State {
+export default class extends Level {
   init () {}
   preload () {}
 
-  create () {
-    game.world.resize(5000, 5000);
-
-    this.starfield = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'starfield');
-    this.starfield.fixedToCamera = true;
-
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-
+  loadLevel () {
     const diameter = 2000;
-    this.planet = new Planet({
-      game: this,
-      x: this.world.centerX,
-      y: this.world.centerY + diameter/2 + 32 + 5,
-      diameter: diameter
-    });
-    this.game.add.existing(this.planet)
+    this.addPlanet(
+      this.world.centerX,
+      this.world.centerY + diameter/2 + 32 + 5,
+      diameter
+    );
 
     const diameter2 = 200
-    this.planet2 = new Planet({
-      game: this,
-      x: this.world.centerX + 300,
-      y: this.world.centerY - 200,
-      diameter: diameter2
-    });
-    this.game.add.existing(this.planet2)
+    this.addPlanet(
+      this.world.centerX + 300,
+      this.world.centerY - 200,
+      diameter2
+    );
 
-    this.planet3 = new Planet({
-      game: this,
-      x: this.world.centerX + 500,
-      y: this.world.centerY - 200,
-      diameter: diameter2
-    });
-    this.game.add.existing(this.planet3)
+    this.addPlanet(
+      this.world.centerX + 500,
+      this.world.centerY - 200,
+      diameter2
+    );
 
-    this.planets = this.game.add.group();
-    this.game.planets = this.planets;
-    this.planets.add(this.planet)
-    this.planets.add(this.planet2)
-    this.planets.add(this.planet3)
+    this.placePlayer(
+      this.world.centerX,
+      this.world.centerY,
+    );
 
-    this.player = new Player({
-      game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY,
-    });
-    this.game.add.existing(this.player)
-    this.game.player = this.player;
-
-    const birds = this.game.add.group();
     for(let i = 0; i < 1; i++) {
-      let bird = new Bird({
-        game: this.game,
-        x: this.world.centerX - 400,
-        y: this.world.centerY - 100,
-      });
-      this.add.existing(bird);
-      birds.add(bird);
+      this.placeBird(this.world.centerX - 400, this.world.centerY - 100)
     }
-
-    this.birdCount = new BirdCount({
-      game: this.game,
-        x: 0,
-        y: 0,
-      birds
-    });
-    this.game.add.existing(this.birdCount);
-
 
     this.game.camera.x = this.player.x - this.camera.width / 2;
     this.game.camera.y = this.player.y - this.camera.height / 2;
@@ -91,8 +53,6 @@ export default class extends Phaser.State {
     banner.fill = '#333333'
     banner.smoothed = true
     banner.anchor.setTo(0.5)
-
-
   }
 
   update() {
