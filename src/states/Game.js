@@ -41,10 +41,6 @@ export default class extends Level {
       this.placeBird(this.world.centerX - 400, this.world.centerY - 100)
     }
 
-    this.game.camera.x = this.player.x - this.camera.width / 2;
-    this.game.camera.y = this.player.y - this.camera.height / 2;
-    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-
     const bannerText = 'Le Petit Prince'
     let banner = this.add.text(this.world.centerX, this.world.centerY + 150, bannerText)
     banner.font = 'Engagement'
