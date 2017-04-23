@@ -13,8 +13,8 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
     this.load.spritesheet('player', 'assets/images/petitprince_sheet.png', 32, 64, 10);
+    this.load.spritesheet('bird', 'assets/images/bird.png', 32, 32);
     this.load.image('starfield', 'assets/images/starmap.png')
   }
 

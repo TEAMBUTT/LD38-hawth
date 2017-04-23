@@ -7,8 +7,8 @@ export default class extends Phaser.Sprite {
     this.anchor.setTo(0.5, 0.75)
 
     this.frame = 0;
-    this.animations.add('walk_left', [2, 3, 4, 5], 10, true);
-    this.animations.add('walk_right', [6, 7, 8, 9], 10, true);
+    this.animations.add('walk_left', [2, 3, 4, 5],  8, true);
+    this.animations.add('walk_right', [6, 7, 8, 9], 8, true);
 
     game.physics.arcade.enable([ this ], Phaser.Physics.ARCADE);
     this.body.setCircle(16);
@@ -26,7 +26,8 @@ export default class extends Phaser.Sprite {
   update () {
     this.closestPlanet = minBy(this.game.planets.children, (planet) => this.distangeTo(planet) - planet.radius)
 
-    this.rotation = game.physics.arcade.angleBetween(this, this.closestPlanet) - game.math.degToRad(90);
+    const rotation = game.physics.arcade.angleBetween(this, this.closestPlanet) - game.math.degToRad(90);
+    this.rotateTowards(rotation)
 
     const playerPlanetVector = new Phaser.Point.subtract(this.position, this.closestPlanet.position);
     const distanceToPlanet = playerPlanetVector.getMagnitude();
@@ -35,7 +36,7 @@ export default class extends Phaser.Sprite {
     this.onGround = distanceToPlanet - this.width / 2 - 1 + footSize < this.closestPlanet.radius;
 
     this.surfaceVelocity.copyFrom(this.body.velocity)
-    this.surfaceVelocity.rotate(0, 0, -this.rotation)
+    this.surfaceVelocity.rotate(0, 0, -rotation)
 
     if(this.onGround) {
       this.surfaceVelocity.y = 0;
@@ -44,13 +45,17 @@ export default class extends Phaser.Sprite {
       newPosition.add(this.closestPlanet.x, this.closestPlanet.y)
       this.position.copyFrom(newPosition)
     } else {
-      const angleToPlanet = this.rotation + game.math.degToRad(90);
+      const angleToPlanet = rotation + game.math.degToRad(90);
       const gravityMag = 300;
       this.body.gravity.x = Math.cos(angleToPlanet) * gravityMag;
       this.body.gravity.y = Math.sin(angleToPlanet) * gravityMag;
     }
 
-    const walkSpeed = this.onGround ? 200 : 150;
+    this.birdTarget = playerPlanetVector.clone();
+    this.birdTarget.setMagnitude(this.birdTarget.getMagnitude() + 64 + 64)
+    this.birdTarget.add(this.closestPlanet.x, this.closestPlanet.y)
+
+    const walkSpeed = this.onGround ? 120 : 100;
     let speed = 0;
     if(this.cursors.right.isDown) {
       speed = walkSpeed;
@@ -78,7 +83,21 @@ export default class extends Phaser.Sprite {
     }
 
     this.body.velocity.copyFrom(this.surfaceVelocity);
-    this.body.velocity = this.body.velocity.rotate(0, 0, this.rotation)
+    this.body.velocity = this.body.velocity.rotate(0, 0, rotation)
+  }
+
+  rotateTowards(target) {
+    const diff = ((2 * Math.PI + target - this.rotation) % (2 * Math.PI));
+    const speed = 0.2;
+    const absdiff = ((3 * Math.PI + target - this.rotation) % (2 * Math.PI)) - Math.PI;
+
+    if(Math.abs(absdiff) < speed) {
+      this.rotation = target;
+    } else if(diff < Math.PI) {
+      this.rotation += speed;
+    } else {
+      this.rotation -= speed;
+    }
   }
 
   jump() {

@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom'
 import Player from '../sprites/Player'
 import Planet from '../sprites/Planet'
+import Bird from '../sprites/Bird'
 
 export default class extends Phaser.State {
   init () {}
@@ -55,6 +56,14 @@ export default class extends Phaser.State {
       y: this.world.centerY,
     });
     this.game.add.existing(this.player)
+    this.game.player = this.player;
+
+    this.bird = new Bird({
+      game: this.game,
+      x: this.world.centerX - 200,
+      y: this.world.centerY - 200,
+    });
+    this.game.add.existing(this.bird)
 
 
     this.game.camera.x = this.player.x - this.camera.width / 2;
