@@ -35,10 +35,19 @@ export default class extends Phaser.State {
     });
     this.game.add.existing(this.planet2)
 
+    this.planet3 = new Planet({
+      game: this,
+      x: this.world.centerX + 700,
+      y: this.world.centerY - 200,
+      diameter: diameter2
+    });
+    this.game.add.existing(this.planet3)
+
     this.planets = this.game.add.group();
     this.game.planets = this.planets;
     this.planets.add(this.planet)
     this.planets.add(this.planet2)
+    this.planets.add(this.planet3)
 
     this.player = new Player({
       game: this.game,
@@ -60,9 +69,6 @@ export default class extends Phaser.State {
     banner.fill = '#77BFA3'
     banner.smoothed = false
     banner.anchor.setTo(0.5)
-
-    game.physics.arcade.collide(this.player, this.planet);
-    game.physics.arcade.collide(this.player, this.planet2);
   }
 
   update() {
