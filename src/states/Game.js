@@ -12,7 +12,7 @@ export default class extends Level {
   preload () {}
 
   loadLevel () {
-    const diameter = 2000;
+    const diameter = 500;
     this.addPlanet(
       this.world.centerX,
       this.world.centerY + diameter/2 + 32 + 5,
@@ -46,7 +46,7 @@ export default class extends Level {
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
     const bannerText = 'Le Petit Prince'
-    let banner = this.add.text(this.world.centerX, this.world.centerY + 200, bannerText)
+    let banner = this.add.text(this.world.centerX, this.world.centerY + 150, bannerText)
     banner.font = 'Engagement'
     banner.padding.set(10, 16)
     banner.fontSize = 60

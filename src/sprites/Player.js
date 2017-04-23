@@ -58,7 +58,7 @@ export default class extends Phaser.Sprite {
     if(this.onGround) {
       this.surfaceVelocity.x = 0;
     }
-    const walkSpeed = this.onGround ? 120 : 100;
+    const walkSpeed = this.onGround ? 170 : 120;
     if(this.cursors.right.isDown) {
       this.surfaceVelocity.x = walkSpeed
       this.facing = "right";
