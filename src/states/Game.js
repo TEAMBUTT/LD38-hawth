@@ -55,12 +55,6 @@ export default class extends Level {
     banner.anchor.setTo(0.5)
   }
 
-  update() {
-    const parallax = 16
-    this.starfield.tilePosition.x = -this.player.x/parallax
-    this.starfield.tilePosition.y = -this.player.y/parallax
-  }
-
   render () {
     if (__DEV__) {
       //this.game.debug.cameraInfo(game.camera, 32, 32);

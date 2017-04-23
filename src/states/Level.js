@@ -71,4 +71,10 @@ export default class extends Phaser.State {
     this.add.existing(bird);
     this.birds.add(bird);
   }
+
+  update() {
+    const parallax = 16
+    this.starfield.tilePosition.x = -this.player.x/parallax
+    this.starfield.tilePosition.y = -this.player.y/parallax
+  }
 };
