@@ -12,6 +12,7 @@ export default class extends Phaser.Sprite {
 
     game.physics.enable(this, Phaser.Physics.ARCADE);
 
+    this.ticks = Math.random() * 100
     //this.tween = game.add.tween(sprite).to( { y: game.world.centerY }, 4000, Phaser.Easing.Bounce.Out, true);
   }
 
@@ -23,5 +24,10 @@ export default class extends Phaser.Sprite {
 
       game.physics.arcade.moveToXY(this, this.target.x, this.target.y, 100);
     }
+
+    this.rotation = (Math.sin(this.ticks / 10)/4) % (2 * Math.PI);
+
+
+    this.ticks += Math.random() * 2;
   }
 };

@@ -58,12 +58,14 @@ export default class extends Phaser.State {
     this.game.add.existing(this.player)
     this.game.player = this.player;
 
-    this.bird = new Bird({
-      game: this.game,
-      x: this.world.centerX - 200,
-      y: this.world.centerY - 200,
-    });
-    this.game.add.existing(this.bird)
+    for(let i = 0; i < 10; i++) {
+      let bird = new Bird({
+        game: this.game,
+        x: this.world.centerX - 200,
+        y: this.world.centerY - 200,
+      });
+      this.game.add.existing(bird);
+    }
 
 
     this.game.camera.x = this.player.x - this.camera.width / 2;
@@ -71,12 +73,12 @@ export default class extends Phaser.State {
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
     const bannerText = 'Le Petit Prince'
-    let banner = this.add.text(this.world.centerX, this.world.centerY + 100, bannerText)
-    banner.font = 'Bangers'
+    let banner = this.add.text(this.world.centerX, this.world.centerY + 200, bannerText)
+    banner.font = 'Engagement'
     banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
+    banner.fontSize = 60
+    banner.fill = '#333333'
+    banner.smoothed = true
     banner.anchor.setTo(0.5)
   }
 
