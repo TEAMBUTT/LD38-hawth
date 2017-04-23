@@ -87,13 +87,12 @@ export default class extends Phaser.Sprite {
   }
 
   rotateTowards(target) {
-    const diff = ((2 * Math.PI + target - this.rotation) % (2 * Math.PI));
     const speed = 0.2;
-    const absdiff = ((3 * Math.PI + target - this.rotation) % (2 * Math.PI)) - Math.PI;
+    const diff = ((3 * Math.PI + target - this.rotation) % (2 * Math.PI)) - Math.PI;
 
-    if(Math.abs(absdiff) < speed) {
+    if(Math.abs(diff) <= speed * 2) {
       this.rotation = target;
-    } else if(diff < Math.PI) {
+    } else if(diff > 0) {
       this.rotation += speed;
     } else {
       this.rotation -= speed;
