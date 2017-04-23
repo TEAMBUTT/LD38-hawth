@@ -12,22 +12,40 @@ export default class extends Phaser.Sprite {
 
     game.physics.enable(this, Phaser.Physics.ARCADE);
 
+    this.state = "waitForPlayer";
+
     this.ticks = Math.random() * 100
     //this.tween = game.add.tween(sprite).to( { y: game.world.centerY }, 4000, Phaser.Easing.Bounce.Out, true);
   }
 
   update () {
     const target = this.game.player.birdTarget;
-    if(target && Math.random() < 0.01) {
-      const circle = new Phaser.Ellipse(target.x, target.y, 256, 128);
-      this.target = circle.random()
+    if (!target) return;
 
-      game.physics.arcade.moveToXY(this, this.target.x, this.target.y, 100);
+    const distance = Phaser.Point.subtract(this.position, target).getMagnitude();
+
+    if (this.state === "waitForPlayer") {
+      if (distance < 200) {
+        this.state = "followPlayer";
+        this.moveToPlayer()
+      }
+    } else if(this.state === "followPlayer") {
+      if(Math.random() < 0.01 || distance > 400) {
+        this.moveToPlayer()
+      }
+
+      this.rotation = (Math.sin(this.ticks / 10)/4) % (2 * Math.PI);
+
+
+      this.ticks += Math.random() * 2;
     }
+  }
 
-    this.rotation = (Math.sin(this.ticks / 10)/4) % (2 * Math.PI);
+  moveToPlayer() {
+    const target = this.game.player.birdTarget;
+    const circle = new Phaser.Ellipse(target.x, target.y, 256, 128);
+    this.target = circle.random()
 
-
-    this.ticks += Math.random() * 2;
+    game.physics.arcade.moveToXY(this, this.target.x, this.target.y, 100);
   }
 };

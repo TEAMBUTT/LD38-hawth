@@ -4,6 +4,7 @@ import Mushroom from '../sprites/Mushroom'
 import Player from '../sprites/Player'
 import Planet from '../sprites/Planet'
 import Bird from '../sprites/Bird'
+import BirdCount from '../sprites/BirdCount'
 
 export default class extends Phaser.State {
   init () {}
@@ -58,14 +59,24 @@ export default class extends Phaser.State {
     this.game.add.existing(this.player)
     this.game.player = this.player;
 
-    for(let i = 0; i < 10; i++) {
+    const birds = this.game.add.group();
+    for(let i = 0; i < 1; i++) {
       let bird = new Bird({
         game: this.game,
-        x: this.world.centerX - 200,
-        y: this.world.centerY - 200,
+        x: this.world.centerX - 400,
+        y: this.world.centerY - 100,
       });
-      this.game.add.existing(bird);
+      this.add.existing(bird);
+      birds.add(bird);
     }
+
+    this.birdCount = new BirdCount({
+      game: this.game,
+        x: 0,
+        y: 0,
+      birds
+    });
+    this.game.add.existing(this.birdCount);
 
 
     this.game.camera.x = this.player.x - this.camera.width / 2;
@@ -80,6 +91,8 @@ export default class extends Phaser.State {
     banner.fill = '#333333'
     banner.smoothed = true
     banner.anchor.setTo(0.5)
+
+
   }
 
   update() {
@@ -90,12 +103,12 @@ export default class extends Phaser.State {
 
   render () {
     if (__DEV__) {
-      this.game.debug.cameraInfo(game.camera, 32, 32);
+      //this.game.debug.cameraInfo(game.camera, 32, 32);
 
 
-      game.debug.body(this.player);
+      //game.debug.body(this.player);
       //this.game.debug.spriteInfo(this.player, 32, 32)
-      this.game.debug.text("on ground? " + this.player.onGround, 32, 14 );
+      //this.game.debug.text("on ground? " + this.player.onGround, 32, 14 );
     }
   }
 }
