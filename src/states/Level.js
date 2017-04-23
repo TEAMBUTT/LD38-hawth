@@ -13,15 +13,15 @@ export default class extends Phaser.State {
   create() {
     game.world.resize(5000, 5000);
 
-    this.starfield = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'starfield');
+    this.starfield = this.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'starfield');
     this.starfield.fixedToCamera = true;
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
-    this.birds = this.game.add.group();
+    this.birds = this.add.group();
 
-    this.planets = this.game.add.group();
+    this.planets = this.add.group();
     this.game.planets = this.planets;
 
     this.loadLevel();
@@ -32,7 +32,7 @@ export default class extends Phaser.State {
       y: 0,
       birds: this.birds
     });
-    this.game.add.existing(this.birdCount);
+    this.add.existing(this.birdCount);
 
     this.game.camera.x = this.player.x - this.camera.width / 2;
     this.game.camera.y = this.player.y - this.camera.height / 2;
@@ -58,7 +58,7 @@ export default class extends Phaser.State {
       x: this.world.centerX,
       y: this.world.centerY,
     });
-    this.game.add.existing(this.player)
+    this.add.existing(this.player)
     this.game.player = this.player;
   }
 

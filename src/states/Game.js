@@ -54,15 +54,4 @@ export default class extends Level {
     banner.smoothed = true
     banner.anchor.setTo(0.5)
   }
-
-  render () {
-    if (__DEV__) {
-      //this.game.debug.cameraInfo(game.camera, 32, 32);
-
-
-      //game.debug.body(this.player);
-      //this.game.debug.spriteInfo(this.player, 32, 32)
-      //this.game.debug.text("on ground? " + this.player.onGround, 32, 14 );
-    }
-  }
 }
