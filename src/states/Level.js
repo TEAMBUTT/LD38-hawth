@@ -76,5 +76,20 @@ export default class extends Phaser.State {
     const parallax = 16
     this.starfield.tilePosition.x = -this.player.x/parallax
     this.starfield.tilePosition.y = -this.player.y/parallax
+
+    if(this.complete) {
+      game.physics.arcade.moveToXY(this.player, this.world.width, -2000, 100)
+
+      if(this.player.y + 100 < this.camera.y) {
+        this.nextLevel();
+      }
+    }else if (this.birdCount.isComplete()) {
+      this.player.inputEnabled = false;
+      this.complete = true;
+      this.camera.unfollow();
+      this.birds.children.forEach((bird) => {
+        bird.state = "carryPlayer"
+      })
+    }
   }
 };

@@ -43,25 +43,9 @@ export default class extends Level {
     banner.fill = '#333333'
     banner.smoothed = true
     banner.anchor.setTo(0.5)
-
-    this.birds.children.forEach((bird) => {
-      bird.state = "followPlayer"
-    })
   }
 
-  carryAwayPlayer() {
-    console.log("foo")
-  }
-
-  update() {
-    if(this.complete) {
-      game.time.events.add(Phaser.Timer.SECOND * 10, this.carryAwayPlayer, this);
-    }else if (this.birdCount.isComplete()) {
-      this.complete = true;
-      this.camera.unfollow();
-      this.birds.children.forEach((bird) => {
-        bird.state = "carryPlayer"
-      })
-    }
+  nextLevel() {
+    this.state.start('Level2')
   }
 }

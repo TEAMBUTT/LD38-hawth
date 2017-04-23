@@ -29,6 +29,8 @@ export default class extends Phaser.Sprite {
     const rotation = game.physics.arcade.angleBetween(this, this.closestPlanet) - game.math.degToRad(90);
     this.rotateTowards(rotation)
 
+    if(!this.inputEnabled) return;
+
     const playerPlanetVector = new Phaser.Point.subtract(this.position, this.closestPlanet.position);
     const distanceToPlanet = playerPlanetVector.getMagnitude();
 
