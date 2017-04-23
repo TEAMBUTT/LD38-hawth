@@ -52,13 +52,13 @@ export default class extends Phaser.Sprite {
     this.body.gravity.y = Math.sin(angleToPlanet) * gravityMag;
 
     this.birdTarget = playerPlanetVector.clone();
-    this.birdTarget.setMagnitude(this.birdTarget.getMagnitude() + 64 + 64)
+    this.birdTarget.setMagnitude(this.birdTarget.getMagnitude() + 64 + 32)
     this.birdTarget.add(this.closestPlanet.x, this.closestPlanet.y)
 
     if(this.onGround) {
       this.surfaceVelocity.x = 0;
     }
-    const walkSpeed = this.onGround ? 170 : 120;
+    const walkSpeed = this.onGround ? 175 : 150;
     if(this.cursors.right.isDown) {
       this.surfaceVelocity.x = walkSpeed
       this.facing = "right";

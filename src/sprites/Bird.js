@@ -23,14 +23,15 @@ export default class extends Phaser.Sprite {
     if (!target) return;
 
     const distance = Phaser.Point.subtract(this.position, target).getMagnitude();
+    console.log(distance)
 
     if (this.state === "waitForPlayer") {
-      if (distance < 200) {
+      if (distance < 100) {
         this.state = "followPlayer";
         this.moveToPlayer()
       }
     } else if(this.state === "followPlayer") {
-      if(Math.random() < 0.01 || distance > 400) {
+      if(Math.random() < 0.01 || distance > 250) {
         this.moveToPlayer()
       }
 

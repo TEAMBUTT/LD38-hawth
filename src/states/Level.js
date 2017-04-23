@@ -11,7 +11,7 @@ export default class extends Phaser.State {
   preload() {}
 
   create() {
-    game.world.resize(5000, 5000);
+    game.world.resize(10000, 10000);
 
     this.starfield = this.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'starfield');
     this.starfield.fixedToCamera = true;
@@ -55,8 +55,8 @@ export default class extends Phaser.State {
   placePlayer(x, y) {
     this.player = new Player({
       game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY,
+      x: x,
+      y: y,
     });
     this.add.existing(this.player)
     this.game.player = this.player;

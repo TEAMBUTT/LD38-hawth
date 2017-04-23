@@ -12,34 +12,28 @@ export default class extends Level {
   preload () {}
 
   loadLevel () {
-    const diameter = 500;
     this.addPlanet(
       this.world.centerX,
-      this.world.centerY + diameter/2 + 32 + 5,
-      diameter
+      this.world.centerY + 250 + 32 + 5,
+      500
     );
 
-    const diameter2 = 200
-    this.addPlanet(
-      this.world.centerX + 300,
-      this.world.centerY - 200,
-      diameter2
-    );
+    for(let x = 500; x <= 2600; x += 300) {
+      this.addPlanet(
+        this.world.centerX + x,
+        this.world.centerY + 500,
+        200
+      );
+    }
 
-    this.addPlanet(
-      this.world.centerX + 500,
-      this.world.centerY - 200,
-      diameter2
-    );
+    for(let x = 1400; x <= 2600; x+= 300) {
+      this.placeBird(this.world.centerX + x, this.world.centerY + 300)
+    }
 
     this.placePlayer(
-      this.world.centerX,
-      this.world.centerY,
+      this.world.centerX + 1100,
+      this.world.centerY + 300,
     );
-
-    for(let i = 0; i < 1; i++) {
-      this.placeBird(this.world.centerX - 400, this.world.centerY - 100)
-    }
 
     const bannerText = 'Le Petit Prince'
     let banner = this.add.text(this.world.centerX, this.world.centerY + 150, bannerText)
