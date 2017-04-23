@@ -17,11 +17,15 @@ export default class extends Phaser.Text {
   }
 
   following() {
-    return filter(this.birds.children, (bird) => bird.state === "followPlayer").length;
+    return filter(this.birds.children, (bird) => bird.state !== "waitForPlayer").length;
   }
 
   total() {
     return this.birds.total;
+  }
+
+  isComplete() {
+    return this.following() == this.total();
   }
 
   update() {

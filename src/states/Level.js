@@ -19,10 +19,10 @@ export default class extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
-    this.birds = this.add.group();
-
     this.planets = this.add.group();
     this.game.planets = this.planets;
+
+    this.birds = this.add.group();
 
     this.loadLevel();
 

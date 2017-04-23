@@ -30,7 +30,7 @@ export default class extends Phaser.Sprite {
         this.moveToPlayer()
       }
     } else if(this.state === "followPlayer") {
-      if(Math.random() < 0.01 || distance > 250) {
+      if(Math.random() < 0.01 || distance > 200) {
         this.moveToPlayer()
       }
 
@@ -38,14 +38,34 @@ export default class extends Phaser.Sprite {
 
 
       this.ticks += Math.random() * 2;
+    } else if(this.state === "carryPlayer") {
+      if(Math.random() < 0.01 || distance > 128) {
+        this.carryPlayer()
+      }
+
+      this.rotation = (Math.sin(this.ticks / 10)/4) % (2 * Math.PI);
+
+      this.ticks += Math.random() * 2;
     }
+  }
+
+  carryPlayer() {
+    const target = this.game.player.position;
+    const circle = new Phaser.Ellipse(target.x, target.y, 64, 64);
+    this.target = circle.random()
+
+    game.physics.arcade.moveToXY(this, this.target.x, this.target.y, 200);
+  }
+
+  moveIntoCircle(circle) {
+    this.target = circle.random()
+
+    game.physics.arcade.moveToXY(this, this.target.x, this.target.y, 100);
   }
 
   moveToPlayer() {
     const target = this.game.player.birdTarget;
-    const circle = new Phaser.Ellipse(target.x, target.y, 256, 128);
-    this.target = circle.random()
-
-    game.physics.arcade.moveToXY(this, this.target.x, this.target.y, 100);
+    const circle = new Phaser.Ellipse(target.x, target.y, 128, 64);
+    this.moveIntoCircle(circle);
   }
 };
